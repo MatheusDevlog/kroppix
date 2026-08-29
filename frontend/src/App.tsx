@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Loader from './components/Loader'
 import HomeButtons, { type Tool } from './components/HomeButtons'
 import Workspace from './components/Workspace'
+import UpdateBanner from './components/UpdateBanner'
 
 type View =
   | { screen: 'loading' }
@@ -14,6 +15,7 @@ export default function App() {
 
   return (
     <div style={{ height: '100%' }}>
+      <UpdateBanner />
       <AnimatePresence mode="wait">
         <motion.div
           key={view.screen === 'tool' ? `tool-${view.tool}` : view.screen}

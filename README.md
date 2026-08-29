@@ -1,5 +1,7 @@
 # Kroppix
 
+![CI](https://github.com/MatheusDevlog/kroppix/actions/workflows/ci.yml/badge.svg)
+
 Ferramenta de design local e gratuita (desktop) que reúne três utilidades comuns do
 dia a dia, sem depender de sites que entregam resultado reduzido ou com marca d'água:
 
@@ -136,6 +138,20 @@ duplicar). Com `CloseApplications=yes`, se o app estiver aberto ele é fechado a
   execução (Mais informações → Executar assim mesmo).
 
 ---
+
+## Testes e qualidade
+
+- **`pytest`** — testes de unidade e integração da lógica (formatos, checagem de versão,
+  gravação de arquivos, vetorização e chroma key). A parte de IA (rembg) é validada
+  manualmente por exigir download de modelo.
+- **`ruff`** — lint e ordenação de imports.
+- **GitHub Actions** — a cada push/PR roda `ruff` + `pytest` (ver o badge acima).
+
+```bash
+pip install -r requirements-dev.txt
+ruff check .
+pytest -q
+```
 
 ## Licença
 

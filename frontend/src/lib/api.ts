@@ -15,9 +15,14 @@ export type VectorOpts = {
 
 export type AppConfig = { acceptedLabel: string; models: { id: string; label: string }[] }
 
+export type UpdateInfo = { tem: boolean; versao?: string; url?: string }
+
 type PyApi = {
   ping: () => Promise<string>
   config: () => Promise<AppConfig>
+  app_version: () => Promise<string>
+  check_update: () => Promise<UpdateInfo>
+  open_external: (url: string) => Promise<boolean>
   pick_image: (allowPdf: boolean) => Promise<PickResult>
   remove_background: (path: string, model: string, alphaMatting: boolean) => Promise<ProcResult>
   remove_color: (path: string, rgb: [number, number, number], tolerance: number) => Promise<ProcResult>
@@ -52,6 +57,13 @@ export const api = {
   async config(): Promise<AppConfig | null> {
     if (!(await ready())) return null
     return window.pywebview!.api.config()
+  },
+  async checkUpdate(): Promise<UpdateInfo> {
+    if (!(await ready())) return { tem: false }
+    return window.pywebview!.api.check_update()
+  },
+  async openExternal(url: string): Promise<void> {
+    if (await ready()) await window.pywebview!.api.open_external(url)
   },
   async pickImage(allowPdf = false): Promise<PickResult> {
     if (!(await ready())) return null
