@@ -1,0 +1,19 @@
+# Kroppix — dependencias Python (venv com Python 3.12)
+
+# App desktop (casca)
+pywebview==5.3.2
+Pillow==12.3.0
+numpy==2.5.2
+
+# Remover fundo
+rembg==2.0.81
+onnxruntime==1.29.0
+
+# Vetorizar
+vtracer==0.6.15
+PyMuPDF==1.28.2
+svglib==2.2.0
+reportlab==5.0.1
+
+# Upscale IA (Real-ESRGAN) nao entra aqui: e um binario ncnn-vulkan
+# baixado em runtime para ~/.designkit/realesrgan na primeira utilizacao.

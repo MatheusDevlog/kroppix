@@ -1,0 +1,26 @@
+# Ambiente Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build / distribuicao (artefatos pesados, gerados localmente)
+dist/
+dist_installer/
+build/pyi-work/
+*.exe
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Documentacao interna de estudo e material pessoal (nao publico)
+docs/
+
+# Imagens de teste / entrada
+imagem_teste.png
+
+# Sistema operacional / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

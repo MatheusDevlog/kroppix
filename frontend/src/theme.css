@@ -1,0 +1,35 @@
+/* Paleta GitHub-dark + amarelo de destaque */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1c2128;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #ffd60a;
+  --accent-dim: #e3b341;
+  --radius: 16px;
+  --shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+/* Hover dos botões da tela inicial via CSS (liso, acelerado por GPU) */
+.home-card { border: 1px solid var(--border); transition: transform 0.16s ease, border-color 0.16s ease; will-change: transform; }
+.home-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.home-card:active { transform: translateY(-1px); }
