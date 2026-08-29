@@ -1,0 +1,11 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+exclude = ["build", ".venv", "dist", "dist_installer", "frontend"]
+
+[tool.ruff.lint]
+# E (estilo) + F (erros/imports não usados) + I (ordenar imports). Base limpa e comum.
+select = ["E", "F", "I"]
+ignore = ["E501"]  # não implica em linha longa (temos dicts/labels longos de propósito)

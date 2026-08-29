@@ -1,8 +1,8 @@
 """Download de modelos do rembg com progresso real (streaming)."""
 import os
+from functools import lru_cache
 
 import requests
-from rembg.sessions import sessions_class
 
 # URLs oficiais (releases do rembg). Baixamos nós mesmos pra ter barra de progresso.
 MODEL_URLS = {
@@ -11,12 +11,16 @@ MODEL_URLS = {
     "birefnet-general": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/BiRefNet-general-epoch_244.onnx",
 }
 
-_BY_NAME = {c.name(): c for c in sessions_class}
+
+@lru_cache(maxsize=1)
+def _by_name() -> dict:
+    from rembg.sessions import sessions_class  # import pesado: só no 1º uso
+    return {c.name(): c for c in sessions_class}
 
 
 def model_path(name: str) -> str:
     """Caminho onde o rembg espera encontrar o modelo."""
-    return os.path.join(_BY_NAME[name].model_dir(), f"{name}.onnx")
+    return os.path.join(_by_name()[name].model_dir(), f"{name}.onnx")
 
 
 def is_cached(name: str) -> bool:

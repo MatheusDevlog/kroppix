@@ -2,7 +2,6 @@
 from functools import lru_cache
 
 from PIL import Image
-from rembg import new_session, remove
 
 from core import models
 
@@ -16,11 +15,13 @@ MODELS = {
 
 @lru_cache(maxsize=4)
 def _session(model_name: str):
+    from rembg import new_session  # import pesado: só no 1º uso
     return new_session(model_name)
 
 
 def remove_background(input_path: str, model_name: str = "u2net", alpha_matting: bool = False, on_progress=None) -> Image.Image:
     """Recorta o fundo e devolve um PIL.Image RGBA em resolução total."""
+    from rembg import remove  # import pesado: só no 1º uso
     models.ensure_model(model_name, on_progress)  # baixa com progresso se faltar
     if on_progress:
         on_progress({"phase": "process", "model": model_name})

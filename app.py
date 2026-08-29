@@ -5,7 +5,13 @@ import sys
 
 import webview
 
-from core import background, chroma, storage
+try:
+    import pyi_splash  # só existe no exe empacotado com splash
+except Exception:
+    pyi_splash = None
+
+import version
+from core import background, chroma, storage, updates
 from core import upscale as upscaler
 from core import vectorize as vectorizer
 from core.formats import ACCEPTED_LABEL, is_accepted
@@ -27,6 +33,15 @@ def _emit(payload: dict) -> None:
             pass
 
 
+def _close_splash() -> None:
+    """Fecha o splash nativo quando a janela já apareceu."""
+    if pyi_splash is not None:
+        try:
+            pyi_splash.close()
+        except Exception:
+            pass
+
+
 class Api:
     """Métodos expostos ao frontend via window.pywebview.api."""
 
@@ -38,6 +53,18 @@ class Api:
             "acceptedLabel": ACCEPTED_LABEL,
             "models": [{"id": k, "label": v} for k, v in background.MODELS.items()],
         }
+
+    def app_version(self) -> str:
+        return version.__version__
+
+    def check_update(self) -> dict:
+        """Diz se há versão nova no GitHub (falha silenciosa se offline)."""
+        return updates.check()
+
+    def open_external(self, url: str) -> bool:
+        """Abre a página da release no navegador."""
+        updates.open_release(url)
+        return True
 
     def pick_image(self, allow_pdf: bool = False):
         """Diálogo nativo -> valida formato -> caminho + preview."""
@@ -135,7 +162,7 @@ def resolve_url() -> str:
 
 
 def main() -> None:
-    webview.create_window(
+    window = webview.create_window(
         "Kroppix",
         url=resolve_url(),
         js_api=Api(),
@@ -144,6 +171,7 @@ def main() -> None:
         min_size=(940, 640),
         background_color="#0d1117",
     )
+    window.events.shown += _close_splash
     webview.start()
 
 

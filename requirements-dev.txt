@@ -1,0 +1,11 @@
+# Dependências de desenvolvimento / CI.
+# Ferramentas de qualidade + libs que os testes exercitam.
+# (rembg/onnxruntime ficam de fora: o stack de IA é pesado e é testado manualmente)
+pytest
+ruff
+Pillow
+numpy
+vtracer
+PyMuPDF
+svglib
+reportlab

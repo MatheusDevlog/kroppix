@@ -1,10 +1,7 @@
 """Vetorização (raster/PDF -> SVG) com vtracer, e conversão SVG -> PDF."""
 import os
 
-import vtracer
 from PIL import Image
-from reportlab.graphics import renderPDF
-from svglib.svglib import svg2rlg
 
 from core.formats import ext_of
 
@@ -36,13 +33,15 @@ def vectorize(input_path: str, out_svg: str, *, colormode: str, colors: int,
     if ext_of(input_path) == "pdf":
         png = out_svg + ".src.png"
         _rasterize_pdf_first_page(input_path, png)
-        src = png; temps.append(png)
+        src = png
+        temps.append(png)
 
     use_colors = colors if colormode == "color" else 0
     work = out_svg + ".work.png"
     _prep(src, work, use_colors)
     temps.append(work)
 
+    import vtracer  # import pesado: só ao vetorizar
     color_precision = 8 if use_colors > 0 else 6
     vtracer.convert_image_to_svg_py(
         work, out_svg, colormode=colormode, mode=mode,
@@ -58,4 +57,6 @@ def vectorize(input_path: str, out_svg: str, *, colormode: str, colors: int,
 
 def svg_to_pdf(svg_path: str, pdf_path: str) -> None:
     """Converte um SVG em PDF vetorial (svglib + reportlab)."""
+    from reportlab.graphics import renderPDF
+    from svglib.svglib import svg2rlg
     renderPDF.drawToFile(svg2rlg(svg_path), pdf_path)

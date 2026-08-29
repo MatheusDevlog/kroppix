@@ -30,8 +30,16 @@ a = Analysis(
 )
 pyz = PYZ(a.pure)
 
+# Splash nativo: aparece instantaneamente ao abrir, antes de o Python carregar
+splash = Splash(
+    os.path.join(ROOT, "build", "kroppix_splash.png"),
+    binaries=a.binaries,
+    datas=a.datas,
+    always_on_top=True,
+)
+
 exe = EXE(
-    pyz, a.scripts, [],
+    pyz, a.scripts, splash, splash.binaries, [],
     exclude_binaries=True,
     name="Kroppix",
     console=False,

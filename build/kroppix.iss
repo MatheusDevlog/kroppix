@@ -1,6 +1,6 @@
 ; Instalador do Kroppix (Inno Setup)
 #define MyAppName "Kroppix"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.0.0"
 #define MyAppExeName "Kroppix.exe"
 
 [Setup]
